@@ -90,16 +90,42 @@ namespace PapaBobMegaChallenge
 
         }
 
-        public bool ValidateCustomerInfo()
+        public int ValidateCustomerInfo()
         {
             if (nameTextBox.Text.Trim().Length == 0)
-                return false;
+                return 1;
             if (addressTextBox.Text.Trim().Length == 0)
-                return false;
+                return 2;
             if (zipTextBox.Text.Trim().Length == 0 || !zipTextBox.Text.Any(char.IsDigit))
-                return false;
+                return 3;
             if (phoneTextBox.Text.Trim().Length == 0 || !phoneTextBox.Text.Any(char.IsDigit))
+                return 4;
+
+            return 0;
+        }
+
+        public bool InputValidation()
+        {
+            if (ValidateCustomerInfo() == 1)
+            {
+                errorLabel.Text = "Please enter a valid Name";
                 return false;
+            }
+            if (ValidateCustomerInfo() == 2)
+            {
+                errorLabel.Text = "Please enter a valid Address";
+                return false;
+            }
+            if (ValidateCustomerInfo() == 3)
+            {
+                errorLabel.Text = "Please enter a valid Zip Code";
+                return false;
+            }
+            if (ValidateCustomerInfo() == 4)
+            {
+                errorLabel.Text = "Please enter a valid Phone Number";
+                return false;
+            }
 
             return true;
         }
@@ -108,7 +134,7 @@ namespace PapaBobMegaChallenge
         {
             DTO.Customer current_customer = new DTO.Customer();
 
-            if(ValidateCustomerInfo())
+            if(InputValidation())
             {
                 current_customer.name = nameTextBox.Text;
                 current_customer.address = addressTextBox.Text;
@@ -118,7 +144,6 @@ namespace PapaBobMegaChallenge
             else
             {
                 current_customer = null;
-                errorLabel.Text = "Please enter valid details";
             }
 
             return current_customer;
