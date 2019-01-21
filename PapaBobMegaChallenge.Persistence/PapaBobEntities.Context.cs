@@ -12,7 +12,7 @@ namespace PapaBobMegaChallenge.Persistence
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class PapaBobEntities : DbContext
     {
         public PapaBobEntities()
@@ -27,5 +27,6 @@ namespace PapaBobMegaChallenge.Persistence
     
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<PizzaPriceTable> PizzaPriceTables { get; set; }
     }
 }

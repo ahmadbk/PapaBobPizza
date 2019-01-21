@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PapaBobModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PapaBobModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customers">
           <Key>
             <PropertyRef Name="customer_id" />
@@ -32,6 +32,21 @@
           <Property Name="green_peppers" Type="bit" Nullable="false" />
           <Property Name="completed" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="PizzaPriceTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="MediumSizeCost" Type="float" Nullable="false" />
+          <Property Name="LargeSizeCost" Type="float" Nullable="false" />
+          <Property Name="ThickCrustCost" Type="float" Nullable="false" />
+          <Property Name="ThinCrustCost" Type="float" Nullable="false" />
+          <Property Name="PepperoniCost" Type="float" Nullable="false" />
+          <Property Name="SausageCost" Type="float" Nullable="false" />
+          <Property Name="GreenPeppersCost" Type="float" Nullable="false" />
+          <Property Name="OnionsCost" Type="float" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Customer_Order">
           <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -47,13 +62,13 @@
         <EntityContainer Name="PapaBobModelStoreContainer">
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PizzaPriceTable" EntityType="Self.PizzaPriceTable" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Customer_Order" Association="Self.FK_Customer_Order">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PapaBobModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -105,6 +120,7 @@
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
+          <EntitySet Name="PizzaPriceTables" EntityType="PapaBobModel.PizzaPriceTable" />
         </EntityContainer>
         <EnumType Name="Size">
           <Member Name="Small" />
@@ -120,6 +136,21 @@
           <Member Name="Cash" />
           <Member Name="Credit" />
         </EnumType>
+        <EntityType Name="PizzaPriceTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MediumSizeCost" Type="Double" Nullable="false" />
+          <Property Name="LargeSizeCost" Type="Double" Nullable="false" />
+          <Property Name="ThickCrustCost" Type="Double" Nullable="false" />
+          <Property Name="ThinCrustCost" Type="Double" Nullable="false" />
+          <Property Name="PepperoniCost" Type="Double" Nullable="false" />
+          <Property Name="SausageCost" Type="Double" Nullable="false" />
+          <Property Name="GreenPeppersCost" Type="Double" Nullable="false" />
+          <Property Name="OnionsCost" Type="Double" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -152,6 +183,22 @@
                 <ScalarProperty Name="onions" ColumnName="onions" />
                 <ScalarProperty Name="green_peppers" ColumnName="green_peppers" />
                 <ScalarProperty Name="completed" ColumnName="completed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PizzaPriceTables">
+            <EntityTypeMapping TypeName="PapaBobModel.PizzaPriceTable">
+              <MappingFragment StoreEntitySet="PizzaPriceTable">
+                <ScalarProperty Name="OnionsCost" ColumnName="OnionsCost" />
+                <ScalarProperty Name="GreenPeppersCost" ColumnName="GreenPeppersCost" />
+                <ScalarProperty Name="SausageCost" ColumnName="SausageCost" />
+                <ScalarProperty Name="PepperoniCost" ColumnName="PepperoniCost" />
+                <ScalarProperty Name="ThinCrustCost" ColumnName="ThinCrustCost" />
+                <ScalarProperty Name="ThickCrustCost" ColumnName="ThickCrustCost" />
+                <ScalarProperty Name="LargeSizeCost" ColumnName="LargeSizeCost" />
+                <ScalarProperty Name="MediumSizeCost" ColumnName="MediumSizeCost" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

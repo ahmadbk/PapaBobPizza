@@ -99,6 +99,9 @@
     <Compile Include="Payment.cs">
       <DependentUpon>PapaBobEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="PizzaPriceTable.cs">
+      <DependentUpon>PapaBobEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Size.cs">
       <DependentUpon>PapaBobEntities.tt</DependentUpon>
