@@ -36,8 +36,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="SmallSizeCost" Type="float" Nullable="false" />
           <Property Name="MediumSizeCost" Type="float" Nullable="false" />
           <Property Name="LargeSizeCost" Type="float" Nullable="false" />
           <Property Name="ThickCrustCost" Type="float" Nullable="false" />
@@ -140,8 +141,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SmallSizeCost" Type="Double" Nullable="false" />
           <Property Name="MediumSizeCost" Type="Double" Nullable="false" />
           <Property Name="LargeSizeCost" Type="Double" Nullable="false" />
           <Property Name="ThickCrustCost" Type="Double" Nullable="false" />
@@ -197,6 +199,7 @@
                 <ScalarProperty Name="ThickCrustCost" ColumnName="ThickCrustCost" />
                 <ScalarProperty Name="LargeSizeCost" ColumnName="LargeSizeCost" />
                 <ScalarProperty Name="MediumSizeCost" ColumnName="MediumSizeCost" />
+                <ScalarProperty Name="SmallSizeCost" ColumnName="SmallSizeCost" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

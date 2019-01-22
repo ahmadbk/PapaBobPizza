@@ -14,8 +14,9 @@ namespace PapaBobMegaChallenge.Persistence
     
     public partial class PizzaPriceTable
     {
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
         public System.DateTime Date { get; set; }
+        public double SmallSizeCost { get; set; }
         public double MediumSizeCost { get; set; }
         public double LargeSizeCost { get; set; }
         public double ThickCrustCost { get; set; }

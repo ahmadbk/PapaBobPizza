@@ -54,4 +54,20 @@ namespace PapaBobMegaChallenge.DTO
 
         public virtual Customer Customer { get; set; }
     }
+
+    [Serializable]
+    public class PizzaPriceTable
+    {
+        public System.Guid Id { get; set; }
+        public System.DateTime Date { get; set; }
+        public double SmallSizeCost { get; set; }
+        public double MediumSizeCost { get; set; }
+        public double LargeSizeCost { get; set; }
+        public double ThickCrustCost { get; set; }
+        public double ThinCrustCost { get; set; }
+        public double PepperoniCost { get; set; }
+        public double SausageCost { get; set; }
+        public double GreenPeppersCost { get; set; }
+        public double OnionsCost { get; set; }
+    }
 }

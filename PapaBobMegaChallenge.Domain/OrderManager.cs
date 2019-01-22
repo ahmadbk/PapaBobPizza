@@ -11,18 +11,19 @@ namespace PapaBobMegaChallenge.Domain
         //calculate total cost given DTO order object return a double
         public static double CalculateAmountOwing(DTO.Order current_order)
         {
+            var latestPricing = Persistence.OrderRepository.GetPrices();
             double cost = 0.0;
 
             switch (current_order.size)
             {
                 case DTO.Size.Small:
-                    cost += 12;
+                    cost += latestPricing.SmallSizeCost;
                     break;
                 case DTO.Size.Medium:
-                    cost += 14;
+                    cost += latestPricing.MediumSizeCost;
                     break;
                 case DTO.Size.Large:
-                    cost += 16;
+                    cost += latestPricing.LargeSizeCost;
                     break;
                 default:
                     break;
@@ -33,18 +34,19 @@ namespace PapaBobMegaChallenge.Domain
                 case DTO.Crust.Regular:
                     break;
                 case DTO.Crust.Thin:
+                    cost += latestPricing.ThinCrustCost;
                     break;
                 case DTO.Crust.Thick:
-                    cost += 2;
+                    cost += latestPricing.ThickCrustCost;
                     break;
                 default:
                     break;
             }
 
-            cost += current_order.green_peppers ? 1 : 0;
-            cost += current_order.onions ? 1 : 0;
-            cost += current_order.pepperoni ? 1.5 : 0;
-            cost += current_order.sausage ? 2 : 0;
+            cost += current_order.green_peppers ? latestPricing.GreenPeppersCost : 0;
+            cost += current_order.onions ? latestPricing.OnionsCost : 0;
+            cost += current_order.pepperoni ? latestPricing.PepperoniCost : 0;
+            cost += current_order.sausage ? latestPricing.SausageCost : 0;
 
             return cost;
         }
@@ -70,5 +72,6 @@ namespace PapaBobMegaChallenge.Domain
         {
             Persistence.OrderRepository.UpdateOrder(current_order_id);
         }
+
     }
 }
