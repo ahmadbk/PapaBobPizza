@@ -18,23 +18,16 @@ namespace PapaBobMegaChallenge.Persistence
             CreateNewOrder(current_order, out new_order);
 
             var dbCustomersList = db.Customers.ToList();
-            bool check_if_customer_exits = CustomerExists(dbCustomersList, current_customer);
+            bool check_if_customer_exits = CustomerRepository.CustomerExists(dbCustomersList, current_customer);
 
             if (!check_if_customer_exits)
             {
                 var new_customer = new Customer();
-                CreateNewCustomer(current_customer, out new_customer);
+                CustomerRepository.CreateNewCustomer(current_customer, out new_customer);
                 new_order.customer_id = new_customer.customer_id;
                 new_customer.amount_owing = current_order.payment_type != DTO.Payment.Cash ? current_order.cost : 0;
                 new_order.Customer = new_customer;
-                try
-                {
-                    dbCustomers.Add(new_customer);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                dbCustomers.Add(new_customer);
             }
             else
             {
@@ -43,16 +36,8 @@ namespace PapaBobMegaChallenge.Persistence
                 existing_customer.amount_owing += current_order.payment_type != DTO.Payment.Cash ? current_order.cost : 0;
             }
 
-            try
-            {
-                dbOrders.Add(new_order);
-                db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
+            dbOrders.Add(new_order);
+            db.SaveChanges();
         }
 
         private static void OrderMapper(DTO.Order current_order, out Persistence.Order new_order)
@@ -67,33 +52,6 @@ namespace PapaBobMegaChallenge.Persistence
             new_order.green_peppers = current_order.green_peppers;
             new_order.sausage = current_order.sausage;
             new_order.pepperoni = current_order.pepperoni;
-        }
-
-        private static void CustomerMapper(DTO.Customer current_customer, out Persistence.Customer new_customer)
-        {
-            new_customer = new Persistence.Customer();
-            new_customer.name = current_customer.name;
-            new_customer.address = current_customer.address;
-            new_customer.zip_code = current_customer.zip_code;
-            new_customer.phone_number = current_customer.phone_number;
-        }
-
-        private static bool CustomerExists(List<Persistence.Customer> dbCustomersList, DTO.Customer current_customer)
-        {
-            var count = dbCustomersList?.Where(p => p.phone_number == current_customer.phone_number).Count();
-
-            if (count > 0)
-                return true;
-            else
-                return false;
-        }
-
-        private static void CreateNewCustomer(DTO.Customer current_customer, out Persistence.Customer new_customer)
-        {
-            new_customer = new Customer();
-            CustomerMapper(current_customer, out new_customer);
-            System.Guid customer_id = Guid.NewGuid();
-            new_customer.customer_id = customer_id;
         }
 
         private static void CreateNewOrder(DTO.Order current_order, out Persistence.Order new_order)
@@ -120,34 +78,8 @@ namespace PapaBobMegaChallenge.Persistence
             new_order.order_id = current_order.order_id;
 
             DTO.Customer customer = new DTO.Customer();
-            CustomerMapper(current_order.Customer, out customer);
+            CustomerRepository.CustomerMapper(current_order.Customer, out customer);
             new_order.Customer = customer;
-        }
-
-        private static void CustomerMapper(Persistence.Customer current_customer, out DTO.Customer new_customer)
-        {
-            new_customer = new DTO.Customer();
-            new_customer.name = current_customer.name;
-            new_customer.address = current_customer.address;
-            new_customer.zip_code = current_customer.zip_code;
-            new_customer.phone_number = current_customer.phone_number;
-            new_customer.customer_id = current_customer.customer_id;
-            new_customer.amount_owing = current_customer.amount_owing;
-        }
-
-        public static List<DTO.Customer> GetCustomerList()
-        {
-            PapaBobEntities db = new PapaBobEntities();
-            var dbCustomers = db.Customers.ToList();
-            List<DTO.Customer> dto_customers_list = new List<DTO.Customer>();
-
-            foreach (var customer in dbCustomers)
-            {
-                DTO.Customer new_customer = new DTO.Customer();
-                CustomerMapper(customer, out new_customer);
-                dto_customers_list.Add(new_customer);
-            }
-            return dto_customers_list;
         }
 
         public static List<DTO.Order> GetOrdersList()
@@ -175,35 +107,6 @@ namespace PapaBobMegaChallenge.Persistence
             var existing_order = dbOrders?.Find(p => p.order_id == new Guid(current_order_id));
             existing_order.completed = true;
             db.SaveChanges();
-        }
-
-        public static DTO.PizzaPriceTable GetPrices()
-        {
-            PapaBobEntities db = new PapaBobEntities();
-            var dbPrices = db.PizzaPriceTables.ToList();
-            dbPrices = dbPrices.OrderBy(p => p.Date).ToList();
-            var latestPrice = dbPrices[dbPrices.Count - 1];
-            
-            return PriceMapper(latestPrice);
-        }
-
-        private static DTO.PizzaPriceTable PriceMapper(Persistence.PizzaPriceTable current_prices)
-        {
-            DTO.PizzaPriceTable prices_current = new DTO.PizzaPriceTable();
-
-            prices_current.Id = current_prices.Id;
-            prices_current.Date = current_prices.Date;
-            prices_current.SmallSizeCost = current_prices.SmallSizeCost;
-            prices_current.MediumSizeCost = current_prices.MediumSizeCost;
-            prices_current.LargeSizeCost = current_prices.LargeSizeCost;
-            prices_current.ThickCrustCost = current_prices.ThickCrustCost;
-            prices_current.ThinCrustCost = current_prices.ThinCrustCost;
-            prices_current.SausageCost = current_prices.SausageCost;
-            prices_current.GreenPeppersCost = current_prices.GreenPeppersCost;
-            prices_current.OnionsCost = current_prices.OnionsCost;
-            prices_current.PepperoniCost = current_prices.PepperoniCost;
-
-            return prices_current;
         }
     }
 }

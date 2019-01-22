@@ -11,7 +11,7 @@ namespace PapaBobMegaChallenge.Domain
         //calculate total cost given DTO order object return a double
         public static double CalculateAmountOwing(DTO.Order current_order)
         {
-            var latestPricing = Persistence.OrderRepository.GetPrices();
+            var latestPricing = Persistence.PriceRepository.GetPrices();
             double cost = 0.0;
 
             switch (current_order.size)
@@ -65,7 +65,7 @@ namespace PapaBobMegaChallenge.Domain
 
         public static List<DTO.Customer> ObtainCustomersList()
         {
-            return Persistence.OrderRepository.GetCustomerList();
+            return Persistence.CustomerRepository.GetCustomerList();
         }
 
         public static void ChangeOrderStatus(string current_order_id)
